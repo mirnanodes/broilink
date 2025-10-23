@@ -25,7 +25,7 @@ return new class extends Migration
             $table->dateTime('timestamp')->nullable(false); // NOT NULL
             $table->date('report_date')->nullable();
             
-            // Kolom Desimal Sesuai ERD (DECIMAL(Total_Digits, Decimal_Places))
+            // Kolom Desimal 
             $table->decimal('temperature', 5, 2)->nullable();
             $table->decimal('humidity', 5, 2)->nullable();
             $table->decimal('ammonia', 5, 2)->nullable();

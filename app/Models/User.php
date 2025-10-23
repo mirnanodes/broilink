@@ -5,28 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Role;
+use App\Models\ManualData;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    // --- Penyesuaian Berdasarkan Migrasi (2025_10_17_051503) ---
-
-    // Menggunakan 'user_id' sebagai Primary Key
-    protected $primaryKey = 'user_id';
-
-    // Menonaktifkan timestamps karena tidak ada kolom created_at/updated_at di migrasi
-    public $timestamps = false;
+    // --- PROPERTY UTAMA ---
+    // Sesuai migrasi Anda
+    protected $primaryKey = 'user_id'; 
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     /**
-     * Atribut yang dapat diisi secara massal (mass assignable).
-     *
-     * @var list<string>
+     * Kolom yang dapat diisi massal.
+     * Menggabungkan kolom wajib dari migrasi lama dan FK baru 'role_id'.
      */
     protected $fillable = [
-        'role',
+        'role_id', // FK baru
         'username',
         'email',
         'password',
@@ -39,45 +37,43 @@ class User extends Authenticatable
     ];
 
     /**
-     * Atribut yang harus disembunyikan untuk serialisasi.
-     *
-     * @var list<string>
+     * Kolom yang harus disembunyikan.
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
-     * Mendapatkan atribut yang harus di-cast ke tipe data tertentu.
-     *
-     * @return array<string, string>
+     * Casting untuk tipe data.
      */
     protected function casts(): array
     {
         return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
             'date_joined' => 'date',
             'last_login' => 'datetime',
-            'password' => 'hashed',
         ];
     }
     
-    // --- Relasi ---
+    // --- RELASI BARU ---
 
-    public function ownedFarms(): HasMany
+    /**
+     * Relasi Many-to-One: User memiliki satu Role
+     */
+    public function role()
     {
-        // Relasi untuk farm yang dimiliki (owner_id)
-        return $this->hasMany(Farm::class, 'owner_id', 'user_id');
+        // Menunjuk ke role_id di tabel users
+        return $this->belongsTo(Role::class); 
     }
 
-    public function workingFarms(): HasMany
+    /**
+     * Relasi One-to-Many: User menginput banyak Manual Data
+     */
+    public function manualDataInputs()
     {
-        // Relasi untuk farm di mana user ini adalah peternak (peternak_id)
-        return $this->hasMany(Farm::class, 'peternak_id', 'user_id');
-    }
-
-    public function farmDataInputs(): HasMany
-    {
-        // Relasi untuk data farm yang diinput oleh user ini
-        return $this->hasMany(FarmData::class, 'user_id_input', 'user_id');
+        // Foreign Key di manual_data adalah 'user_id_input', PK di users adalah 'user_id'
+        return $this->hasMany(ManualData::class, 'user_id_input', 'user_id');
     }
 }
