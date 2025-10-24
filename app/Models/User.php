@@ -14,11 +14,11 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     // --- PROPERTY UTAMA ---
-    // Sesuai migrasi Anda
     protected $primaryKey = 'user_id'; 
     public $incrementing = true;
     protected $keyType = 'int';
 
+    public $timestamps = false;
     /**
      * Kolom yang dapat diisi massal.
      * Menggabungkan kolom wajib dari migrasi lama dan FK baru 'role_id'.

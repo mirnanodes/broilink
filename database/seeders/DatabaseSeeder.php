@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB; 
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,11 +17,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        
+        DB::table('roles')->insert([
+            // Role Admin (ID 1)
+            ['id' => 1, 'name' => 'Admin', 'description' => 'Akses penuh ke sistem dan konfigurasi', 'created_at' => now(), 'updated_at' => now()],
+            // Role Owner (ID 2)
+            ['id' => 2, 'name' => 'Owner', 'description' => 'Pemilik kandang dengan akses laporan dan pengaturan', 'created_at' => now(), 'updated_at' => now()],
+            // Role Peternak (ID 3)
+            ['id' => 3, 'name' => 'Peternak', 'description' => 'Petugas lapangan untuk input data manual', 'created_at' => now(), 'updated_at' => now()],
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        
+        User::create([
+            'role_id' => 1, 
+            'username' => 'admin_utama', 
+            'email' => 'admin@broilink.com', 
+            'password' => Hash::make('password_rahasia'), 
+            'name' => 'Admin Utama Broilink', 
+            
+            'phone_number' => '08123456789',
+            'profile_pic' => null,
+            'status' => 'active',
+            'date_joined' => now()->toDateString(),
+            'last_login' => now(),
         ]);
     }
 }
