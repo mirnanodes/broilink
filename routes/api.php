@@ -14,7 +14,7 @@ use App\Http\Controllers\AuthController;
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
-| Hanya untuk Login dan Submit Request/Contact Form (Guest/Landing Page)
+
 */
 
 // Auth
@@ -90,6 +90,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/grafik/manual/{farm_id}', [ManualDataController::class, 'getFarmHistory']);
     });
     
-    // IoT Device Data Injection Endpoint (Opsional: harus sangat aman, tanpa auth user)
+    // IoT Device Data Injection Endpoint 
     // Route::post('/iot/webhook', [IotDataController::class, 'receiveIotData']); 
 });

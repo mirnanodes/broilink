@@ -1,14 +1,15 @@
 <?php
+namespace App\Models; 
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class IotData extends Model
 {
     use HasFactory;
     
-    // Matikan timestamps karena tabel ini hanya untuk data sensor
-    public $timestamps = false;
+    public $timestamps = false; 
     
     protected $fillable = [
         'farm_id',
@@ -18,10 +19,17 @@ class IotData extends Model
         'ammonia',
         'data_source',
     ];
+
+    protected $casts = [
+        'timestamp' => 'datetime',
+        'temperature' => 'decimal:2',
+        'humidity' => 'decimal:2',
+        'ammonia' => 'decimal:2',
+    ];
     
     // Relasi Many-to-One: Banyak IotData dimiliki oleh satu Farm
-    public function farm()
+    public function farm(): BelongsTo
     {
-        return $this->belongsTo(Farm::class);
+        return $this->belongsTo(Farm::class, 'farm_id', 'farm_id');
     }
 }

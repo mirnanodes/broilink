@@ -46,7 +46,6 @@ class ManualDataController extends Controller
     // OWNER/PETERNAK: GET /api/{role}/grafik/manual/{farm_id}
     public function getFarmHistory(Request $request, $farm_id)
     {
-        // Pastikan akses (Owner/Peternak) sudah diverifikasi di middleware sebelum logic ini
         $data = ManualData::where('farm_id', $farm_id)
                            ->orderBy('report_date', 'asc')
                            ->get();

@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Farm extends Model
 {
     use HasFactory;
 
     protected $primaryKey = 'farm_id';
-    public $timestamps = false; // Berdasarkan migrasi 2025_10_17_051506
+    public $timestamps = false; 
 
     protected $fillable = [
         'owner_id',
@@ -47,16 +48,34 @@ class Farm extends Model
     {
         return $this->hasMany(FarmConfig::class, 'farm_id', 'farm_id');
     }
-
-    // Relasi ke FarmData
-    public function data(): HasMany
-    {
-        return $this->hasMany(FarmData::class, 'farm_id', 'farm_id');
-    }
     
     // Relasi ke NotificationLog
     public function notifications(): HasMany
     {
         return $this->hasMany(NotificationLog::class, 'farm_id', 'farm_id');
+    }
+    
+    // =========================================================
+    // RELASI BARU UNTUK DATA DASHBOARD (IOT & MANUAL)
+    // =========================================================
+
+    // Relasi ke seluruh data sensor (IotData)
+    public function iotData(): HasMany
+    {
+        return $this->hasMany(IotData::class, 'farm_id', 'farm_id');
+    }
+    
+    /**
+     * Relasi untuk mengambil SATU data IoT terbaru
+     */
+    public function latestIotData(): HasOne
+    {
+        return $this->hasOne(IotData::class, 'farm_id', 'farm_id')->latest('timestamp');
+    }
+
+    // Relasi ke seluruh data laporan manual (ManualData)
+    public function manualData(): HasMany
+    {
+        return $this->hasMany(ManualData::class, 'farm_id', 'farm_id');
     }
 }

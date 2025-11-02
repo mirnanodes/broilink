@@ -1,52 +1,36 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class FarmData extends Model
+class ManualData extends Model
 {
     use HasFactory;
-
-    protected $table = 'farm_data';
-    protected $primaryKey = 'data_id';
-    public $timestamps = false; // Berdasarkan migrasi 2025_10_17_051509
-
+    
+    // Migrasi 2025_10_23_155101_create_manual_data_table.php menunjukkan penggunaan $table->id();
+    
     protected $fillable = [
         'farm_id',
         'user_id_input',
-        'timestamp',
         'report_date',
-        'temperature',
-        'humidity',
-        'ammonia',
         'konsumsi_pakan',
         'konsumsi_air',
         'jumlah_kematian',
-        'data_source',
     ];
+    
+    // Tambahkan timestamps jika migrasi menggunakannya (2025_10_23_155101_create_manual_data_table.php ada timestamps)
+    public $timestamps = true; 
 
-    protected $casts = [
-        'timestamp' => 'datetime',
-        'report_date' => 'date',
-        'temperature' => 'decimal:2',
-        'humidity' => 'decimal:2',
-        'ammonia' => 'decimal:2',
-        'konsumsi_pakan' => 'decimal:2',
-        'konsumsi_air' => 'decimal:2',
-        'jumlah_kematian' => 'integer',
-    ];
-
-    // Relasi ke Farm
+    // Relasi Many-to-One: Banyak ManualData dimiliki oleh satu Farm
     public function farm(): BelongsTo
     {
         return $this->belongsTo(Farm::class, 'farm_id', 'farm_id');
     }
-
-    // Relasi ke User (Input Data)
-    public function userInputUser(): BelongsTo
+    
+    // Relasi Many-to-One: Data diinput oleh satu User
+    public function userInput(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id_input', 'user_id');
     }
