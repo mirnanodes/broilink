@@ -12,22 +12,15 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         
         DB::table('roles')->insert([
-            // Role Admin (ID 1)
             ['id' => 1, 'name' => 'Admin', 'description' => 'Akses penuh ke sistem dan konfigurasi', 'created_at' => now(), 'updated_at' => now()],
-            // Role Owner (ID 2)
             ['id' => 2, 'name' => 'Owner', 'description' => 'Pemilik kandang dengan akses laporan dan pengaturan', 'created_at' => now(), 'updated_at' => now()],
-            // Role Peternak (ID 3)
             ['id' => 3, 'name' => 'Peternak', 'description' => 'Petugas lapangan untuk input data manual', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        
         User::create([
             'role_id' => 1, 
             'username' => 'admin_utama', 

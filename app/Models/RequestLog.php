@@ -12,7 +12,7 @@ class RequestLog extends Model
 
     protected $table = 'request_log';
     protected $primaryKey = 'request_id';
-    public $timestamps = false; // Berdasarkan migrasi 2025_10_17_051507
+    public $timestamps = false;
 
     protected $fillable = [
         'user_id',
@@ -27,7 +27,6 @@ class RequestLog extends Model
         'sent_time' => 'datetime',
     ];
 
-    // Relasi ke User
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');

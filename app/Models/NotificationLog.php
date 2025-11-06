@@ -12,7 +12,7 @@ class NotificationLog extends Model
 
     protected $table = 'notification_log';
     protected $primaryKey = 'notif_id';
-    public $timestamps = false; // Berdasarkan migrasi 2025_10_17_051505
+    public $timestamps = false;
 
     protected $fillable = [
         'sender_user_id',
@@ -28,19 +28,16 @@ class NotificationLog extends Model
         'sent_at' => 'datetime',
     ];
 
-    // Relasi ke User (Sender)
     public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sender_user_id', 'user_id');
     }
 
-    // Relasi ke User (Recipient)
     public function recipient(): BelongsTo
     {
         return $this->belongsTo(User::class, 'recipient_user_id', 'user_id');
     }
 
-    // Relasi ke Farm
     public function farm(): BelongsTo
     {
         return $this->belongsTo(Farm::class, 'farm_id', 'farm_id');

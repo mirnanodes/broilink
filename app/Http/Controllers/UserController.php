@@ -10,7 +10,6 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    // GET /api/admin/users
     public function index()
     {
         $users = User::with('role')
@@ -23,7 +22,6 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    // POST /api/admin/users
     public function store(Request $request)
     {
         $request->validate([
@@ -54,13 +52,11 @@ class UserController extends Controller
         ], 201);
     }
 
-    // SHARED: GET /api/user/profile
     public function showProfile(Request $request)
     {
         return response()->json($request->user()->load('role'));
     }
 
-    // SHARED: PUT /api/user/profile
     public function updateProfile(Request $request)
     {
         $user = $request->user();
@@ -85,5 +81,4 @@ class UserController extends Controller
         ]);
     }
     
-    // ... implementasikan show(), update(), destroy() untuk Admin
 }

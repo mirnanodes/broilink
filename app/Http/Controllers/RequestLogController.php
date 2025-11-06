@@ -8,14 +8,12 @@ use Illuminate\Validation\Rule;
 
 class RequestLogController extends Controller
 {
-    // GUEST: POST /api/requests/submit
     public function submitGuestRequest(Request $request)
     {
         $request->validate([
             'sender_name' => 'required|string|max:50',
             'request_type' => 'required|string|max:50', 
             'request_content' => 'required|string|max:500',
-            // Tambahkan validasi untuk kontak (email/WA)
         ]);
 
         $log = RequestLog::create([
@@ -30,7 +28,6 @@ class RequestLogController extends Controller
         return response()->json(['message' => 'Permintaan berhasil dikirim.'], 201);
     }
     
-    // OWNER: POST /api/owner/requests
     public function submitOwnerRequest(Request $request)
     {
         $request->validate([
@@ -52,14 +49,12 @@ class RequestLogController extends Controller
         return response()->json(['message' => 'Permintaan Anda berhasil diajukan kepada Admin.'], 201);
     }
 
-    // ADMIN: GET /api/admin/requests
     public function index()
     {
         $requests = RequestLog::orderBy('sent_time', 'desc')->get();
         return response()->json($requests);
     }
     
-    // ADMIN: PUT /api/admin/requests/{request_id}
     public function update(Request $request, $request_id)
     {
         $log = RequestLog::findOrFail($request_id);
@@ -72,5 +67,4 @@ class RequestLogController extends Controller
 
         return response()->json(['message' => 'Status permintaan berhasil diperbarui.', 'log' => $log]);
     }
-    // ... implementasikan show()
 }

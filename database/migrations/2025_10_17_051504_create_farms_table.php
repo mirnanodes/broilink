@@ -6,19 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('farms', function (Blueprint $table) {
-            $table->id('farm_id'); // PK
+            $table->id('farm_id');
             
-            // FK 1: Owner (NOT NULL)
             $table->unsignedBigInteger('owner_id')->nullable(false);
             $table->foreign('owner_id')->references('user_id')->on('users')->onDelete('cascade');
             
-            // FK 2: Peternak (NULLABLE)
             $table->unsignedBigInteger('peternak_id')->nullable();
             $table->foreign('peternak_id')->references('user_id')->on('users')->onDelete('set null'); 
 
@@ -30,9 +25,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('farms');

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->id(); // Primary Key (PK) untuk tabel roles
+            $table->id();
             $table->string('name', 50)->unique()->nullable(false); 
             $table->string('description', 255)->nullable();
             $table->timestamps();

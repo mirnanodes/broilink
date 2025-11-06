@@ -9,7 +9,6 @@ use Illuminate\Validation\Rule;
 
 class ManualDataController extends Controller
 {
-    // PETERNAK: POST /api/peternak/input/manual-data
     public function store(Request $request)
     {
         $peternakId = $request->user()->user_id;
@@ -17,13 +16,11 @@ class ManualDataController extends Controller
         $request->validate([
             'farm_id' => [
                 'required', 
-                // Pastikan farm diurus oleh peternak yang sedang login
                 Rule::exists('farms', 'farm_id')->where(fn ($query) => $query->where('peternak_id', $peternakId))
             ],
             'report_date' => [
                 'required', 
                 'date_format:Y-m-d',
-                // Cek constraint unik: satu laporan per Farm per Tanggal
                 Rule::unique('manual_data')->where(fn ($query) => $query->where('farm_id', $request->farm_id))
             ],
             'konsumsi_pakan' => 'nullable|numeric|min:0',
@@ -43,7 +40,6 @@ class ManualDataController extends Controller
         return response()->json(['message' => 'Laporan harian berhasil diinput.', 'data' => $manualData], 201);
     }
     
-    // OWNER/PETERNAK: GET /api/{role}/grafik/manual/{farm_id}
     public function getFarmHistory(Request $request, $farm_id)
     {
         $data = ManualData::where('farm_id', $farm_id)
@@ -53,5 +49,4 @@ class ManualDataController extends Controller
         return response()->json($data);
     }
     
-    // ... implementasikan update() dan showDailyInput()
 }

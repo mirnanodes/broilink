@@ -6,26 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('farm_data', function (Blueprint $table) {
-            $table->id('data_id'); // PK
+            $table->id('data_id');
             
-            // FK ke FARMS (NOT NULL)
             $table->unsignedBigInteger('farm_id')->nullable(false);
             $table->foreign('farm_id')->references('farm_id')->on('farms')->onDelete('cascade');
             
-            // FK ke USERS
             $table->unsignedBigInteger('user_id_input')->nullable();
             $table->foreign('user_id_input')->references('user_id')->on('users')->onDelete('set null'); 
             
-            $table->dateTime('timestamp')->nullable(false); // NOT NULL
+            $table->dateTime('timestamp')->nullable(false);
             $table->date('report_date')->nullable();
             
-            // Kolom Desimal 
             $table->decimal('temperature', 5, 2)->nullable();
             $table->decimal('humidity', 5, 2)->nullable();
             $table->decimal('ammonia', 5, 2)->nullable();
@@ -37,9 +31,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('farm_data');

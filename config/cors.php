@@ -6,10 +6,9 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        // REMINDER: Tambahkan URL lokal tempat frontend !!!!!
+        // REMINDER: Add production frontend URL when deploying
         'http://localhost:5173', 
         'http://127.0.0.1:5173',
-        // Tambahkan URL domain produksi frontend Anda di sini nanti
     ],
 
     'allowed_origins_patterns' => [],

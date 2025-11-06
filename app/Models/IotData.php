@@ -27,7 +27,6 @@ class IotData extends Model
         'ammonia' => 'decimal:2',
     ];
     
-    // Relasi Many-to-One: Banyak IotData dimiliki oleh satu Farm
     public function farm(): BelongsTo
     {
         return $this->belongsTo(Farm::class, 'farm_id', 'farm_id');

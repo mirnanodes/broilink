@@ -12,7 +12,7 @@ class FarmConfig extends Model
 
     protected $table = 'farm_config';
     protected $primaryKey = 'config_id';
-    public $timestamps = false; // Berdasarkan migrasi 2025_10_17_051504
+    public $timestamps = false;
 
     protected $fillable = [
         'farm_id',
@@ -24,7 +24,6 @@ class FarmConfig extends Model
         'value' => 'decimal:2',
     ];
 
-    // Relasi ke Farm
     public function farm(): BelongsTo
     {
         return $this->belongsTo(Farm::class, 'farm_id', 'farm_id');

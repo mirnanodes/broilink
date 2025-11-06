@@ -10,21 +10,8 @@ use App\Models\ManualData;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
-    // --- PROPERTY UTAMA ---
-    protected $primaryKey = 'user_id'; 
-    public $incrementing = true;
-    protected $keyType = 'int';
-
-    public $timestamps = false;
-    /**
-     * Kolom yang dapat diisi massal.
-     * Menggabungkan kolom wajib dari migrasi lama dan FK baru 'role_id'.
-     */
     protected $fillable = [
-        'role_id', // FK baru
+        'role_id',
         'username',
         'email',
         'password',
@@ -36,17 +23,11 @@ class User extends Authenticatable
         'last_login',
     ];
 
-    /**
-     * Kolom yang harus disembunyikan.
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Casting untuk tipe data.
-     */
     protected function casts(): array
     {
         return [
@@ -57,23 +38,13 @@ class User extends Authenticatable
         ];
     }
     
-    // --- RELASI BARU ---
-
-    /**
-     * Relasi Many-to-One: User memiliki satu Role
-     */
     public function role()
     {
-        // Menunjuk ke role_id di tabel users
         return $this->belongsTo(Role::class); 
     }
 
-    /**
-     * Relasi One-to-Many: User menginput banyak Manual Data
-     */
     public function manualDataInputs()
     {
-        // Foreign Key di manual_data adalah 'user_id_input', PK di users adalah 'user_id'
         return $this->hasMany(ManualData::class, 'user_id_input', 'user_id');
     }
 }

@@ -8,7 +8,6 @@ use Illuminate\Validation\Rule;
 
 class FarmConfigController extends Controller
 {
-    // ADMIN: POST /api/admin/config
     public function store(Request $request)
     {
         $request->validate([
@@ -24,7 +23,6 @@ class FarmConfigController extends Controller
         return response()->json(['message' => 'Konfigurasi batas berhasil ditambahkan.', 'config' => $config], 201);
     }
     
-    // ADMIN: PUT /api/admin/config/{config_id}
     public function update(Request $request, $config_id)
     {
         $config = FarmConfig::findOrFail($config_id);
@@ -38,5 +36,4 @@ class FarmConfigController extends Controller
         return response()->json(['message' => 'Konfigurasi batas berhasil diperbarui.', 'config' => $config]);
     }
     
-    // ... implementasikan index() dan show()
 }

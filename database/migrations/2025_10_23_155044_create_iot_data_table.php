@@ -9,18 +9,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('iot_data', function (Blueprint $table) {
-            $table->id(); // PK
+            $table->id();
             
             $table->foreignId('farm_id')->constrained('farms', 'farm_id')->onDelete('cascade'); 
             
-            $table->dateTime('timestamp')->nullable(false)->index(); // Wajib diisi
+            $table->dateTime('timestamp')->nullable(false)->index();
 
-            // Kolom Data Sensor
             $table->decimal('temperature', 5, 2)->nullable();
             $table->decimal('humidity', 5, 2)->nullable();
             $table->decimal('ammonia', 5, 2)->nullable();
             
-            // Kolom data_source 
             $table->string('data_source', 10)->default('IOT'); 
         });
     }

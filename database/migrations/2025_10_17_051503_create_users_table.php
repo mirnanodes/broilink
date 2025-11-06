@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
       Schema::create('users', function (Blueprint $table) {
@@ -23,12 +20,10 @@ return new class extends Migration
         $table->string('status', 20)->nullable();
         $table->date('date_joined')->nullable();
         $table->dateTime('last_login')->nullable();
-        });  
+        $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
